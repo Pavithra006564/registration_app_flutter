@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:registration_app_flutter/login.dart';
+import 'package:registration_app_flutter/services.dart';
 
 class Signuppage extends StatefulWidget {
   const Signuppage({super.key});
@@ -10,15 +11,15 @@ class Signuppage extends StatefulWidget {
 
 class _SignuppageState extends State<Signuppage> {
   @override
-  TextEditingController usercontroller =TextEditingController();
-  TextEditingController emailcontroller =TextEditingController();
-  TextEditingController passwordcontroller =TextEditingController();
-  TextEditingController confirmcontroller =TextEditingController();
-  final formkey=GlobalKey<FormState>();
+  TextEditingController usercontroller = TextEditingController();
+  TextEditingController emailcontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
+  TextEditingController confirmcontroller = TextEditingController();
+  final formkey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Form(
+      body: Form(key: formkey,
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -40,14 +41,14 @@ class _SignuppageState extends State<Signuppage> {
                 ),
                 SizedBox(height: 50),
                 Align(alignment: Alignment.topLeft, child: Text("UserName")),
-                TextFormField(controller: usercontroller,validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return "Username is required";
-                  }
-                  if(value.length!=8){
-                    return "Username must be of 8 characters";
-                  }
-                },
+                TextFormField(
+                  controller: usercontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Username is required";
+                    }
+                    
+                  },
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
@@ -59,14 +60,16 @@ class _SignuppageState extends State<Signuppage> {
                 ),
                 SizedBox(height: 30),
                 Align(alignment: Alignment.topLeft, child: Text("Email")),
-                TextFormField(controller: emailcontroller,validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return "Email is required";
-                  }
-                  if(!value.contains("@")){
-                    return "@ is required";
-                  }
-                },
+                TextFormField(
+                  controller: emailcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Email is required";
+                    }
+                    if (!value.contains("@")) {
+                      return "@ is required";
+                    }
+                  },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
@@ -78,14 +81,14 @@ class _SignuppageState extends State<Signuppage> {
                 ),
                 SizedBox(height: 30),
                 Align(alignment: Alignment.topLeft, child: Text("Password")),
-                TextFormField(controller: passwordcontroller,validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return "Password is required";
-                  }
-                  if(value!=8){
-                    return "Password must be of 8 characters";
-                  }
-                },
+                TextFormField(
+                  controller: passwordcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Password is required";
+                    }
+                    
+                  },
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
@@ -100,17 +103,17 @@ class _SignuppageState extends State<Signuppage> {
                   alignment: Alignment.topLeft,
                   child: Text("Confirm Password"),
                 ),
-                TextFormField(controller: confirmcontroller,validator: (value) {
-                  if(value==null || value.isEmpty){
-                    return "Confirm your password";
-                  }
-                  if(value!=8){
-                    return "Password must be of 8 characters";
-                  }
-                  if(value!=passwordcontroller.text){
-                    return "password is not the same"; 
-                  }
-                },
+                TextFormField(
+                  controller: confirmcontroller,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Confirm your password";
+                    }
+
+                    if (value != passwordcontroller.text) {
+                      return "password is not the same";
+                    }
+                  },
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                     fillColor: Colors.white,
@@ -130,12 +133,22 @@ class _SignuppageState extends State<Signuppage> {
                       foregroundColor: Colors.white,
                       side: BorderSide(color: Colors.black),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (formkey.currentState!.validate()) {
+                        signup(
+                          username: usercontroller.text,
+                          Email: emailcontroller.text,
+                          Password: passwordcontroller.text,
+                          confirmpassword: confirmcontroller.text,
+                          context: context,
+                        );
+                      }
+                    },
                     child: Text("Sign Up"),
                   ),
                 ),
                 SizedBox(height: 10),
-        
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
