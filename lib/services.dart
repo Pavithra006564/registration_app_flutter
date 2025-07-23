@@ -44,3 +44,19 @@ Future<void> loginn({
     ).showSnackBar(SnackBar(content: Text(e.toString())));
   }
 }
+
+Future<void> forgotpass({
+  required String Email,
+  required BuildContext context,
+}) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: Email);
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text("Password reset link send")));
+  } catch (e) {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text((e.toString()))));
+  }
+}
